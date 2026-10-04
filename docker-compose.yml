@@ -1,5 +1,5 @@
 services:
-  # Entorno de desarrollo para programar en Python / Streamlit (Dev Container)
+  # Entorno de desarrollo para programar en Python / Streamlit
   app:
     image: python:3.10-slim
     container_name: smartcity_app
@@ -10,7 +10,7 @@ services:
       - "8501:8501" # Para el Dashboard de Streamlit
     command: sleep infinity
 
-  # 1. Base Relacional
+  # 1. Base Relacional (Metadatos y Maestros)
   postgres:
     image: postgres:15-alpine
     container_name: postgres_db
@@ -22,7 +22,7 @@ services:
     ports:
       - "5432:5432"
 
-  # 2. Base NoSQL
+  # 2. Base NoSQL (Telemetría IoT)
   mongodb:
     image: mongo:6.0
     container_name: mongo_db
@@ -33,7 +33,7 @@ services:
     ports:
       - "27017:27017"
 
-  # 3. Hadoop HDFS
+  # 3. Almacenamiento Distribuido (Hadoop HDFS)
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     container_name: hadoop_namenode
@@ -57,7 +57,7 @@ services:
     ports:
       - "9864:9864"
 
-  # 4. Apache Spark Master (Oficial de Apache)
+  # 4. Procesamiento Distribuido (Apache Spark)
   spark-master:
     image: apache/spark:3.5.1
     container_name: spark_master
