@@ -246,6 +246,3 @@ def create_events_and_alerts(database, count: int) -> None:
         ops = [ReplaceOne({"_id": d["_id"]}, d, upsert=True) for d in docs]
         if ops:
             database[collection_name].bulk_write(ops, ordered=False)
-
-
-\n
