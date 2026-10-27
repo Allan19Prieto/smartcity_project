@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" pages="2">
+  <diagram id="smartcity-er" name="01 - Modelo relacional">
+    <mxGraphModel dx="3006" dy="1306" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="2339" pageHeight="3307" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="categorias_sensor" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;categorias_sensor&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_categoria&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_categoria&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (nombre_categoria)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="157.07592000000002" width="301.40999999999997" x="1.7060000000000368" y="150.00203999999985" as="geometry" />
+        </mxCell>
+        <mxCell id="tipos_sensor" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;tipos_sensor&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_tipo_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_tipo&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_categoria&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (nombre_tipo)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="196.52543999999997" width="264.82464" x="19.99867999999998" y="439.9972799999997" as="geometry" />
+        </mxCell>
+        <mxCell id="ciudades" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;ciudades&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_ciudad&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;pais&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;zona_horaria ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (pais, nombre)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="235.96272000000002" width="267.82343999999995" x="1829.9982799999998" y="298.5986399999998" as="geometry" />
+        </mxCell>
+        <mxCell id="ubicaciones" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;ubicaciones&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_ubicacion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_ciudad&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo_zona&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre_zona&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;distrito ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;latitud ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;numeric(9,6)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;longitud ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;numeric(9,6)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (id_ciudad, codigo_zona)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="354.27456" width="325.35144" x="1259.99528" y="239.44271999999967" as="geometry" />
+        </mxCell>
+        <mxCell id="organismos_responsables" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;organismos_responsables&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_organismo&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;responsable ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="161.16408" width="292.08311999999995" x="389.99943999999994" y="809.9979599999997" as="geometry" />
+        </mxCell>
+        <mxCell id="usuarios_sistema" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;usuarios_sistema&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_usuario&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;correo&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (correo)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="196.52543999999997" width="226.90512" x="2359.99744" y="199.99727999999982" as="geometry" />
+        </mxCell>
+        <mxCell id="sensores" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;sensores&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_tipo_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_ubicacion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_organismo ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_instalacion ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;date&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;estado_administrativo&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;naturaleza_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (codigo_sensor)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="433.16135999999995" width="338.99904" x="660.00148" y="199.9993199999999" as="geometry" />
+        </mxCell>
+        <mxCell id="fuentes_datos" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;fuentes_datos&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_fuente&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;version&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;url_origen&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;licencia ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;naturaleza_datos&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (nombre, version)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="314.83727999999996" width="292.07088" x="1549.9955599999998" y="656.3213599999999" as="geometry" />
+        </mxCell>
+        <mxCell id="variables_medicion" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#dcebf4;font-weight:bold;text-align:center&quot;&gt;variables_medicion&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_variable&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo_variable&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;definicion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;unidad&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;criterio_agregacion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (codigo_variable)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="314.83727999999996" width="311.55696" x="-3.372380000000021" y="1040.0013599999997" as="geometry" />
+        </mxCell>
+        <mxCell id="tipos_sensor_variables" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#e9e2f3;font-weight:bold;text-align:center&quot;&gt;tipos_sensor_variables&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK,FK&lt;/td&gt;&lt;td&gt;id_tipo_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK,FK&lt;/td&gt;&lt;td&gt;id_variable&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;PK compuesta: los dos atributos&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="157.07592000000002" width="293.79672000000005" x="5.512639999999961" y="769.0020399999999" as="geometry" />
+        </mxCell>
+        <mxCell id="lecturas_limpias" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#d8eee8;font-weight:bold;text-align:center&quot;&gt;lecturas_limpias&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_lectura&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_sensor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_fuente&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;clave_origen&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;id_documento_mongo&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_medicion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;timestamptz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;fecha_recepcion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;timestamptz&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;calidad&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;clase_lectura&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;intervalo_segundos ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;integer&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (id_fuente, clave_origen)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (id_documento_mongo)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="507.96" width="402.32879999999994" x="939.9966" y="993.72" as="geometry" />
+        </mxCell>
+        <mxCell id="mediciones_limpias" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#d8eee8;font-weight:bold;text-align:center&quot;&gt;mediciones_limpias&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK,FK&lt;/td&gt;&lt;td&gt;id_lectura&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK,FK&lt;/td&gt;&lt;td&gt;id_variable&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;valor&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;numeric&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;PK compuesta: los dos atributos&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="196.52543999999997" width="285.35112" x="429.99544" y="1224.2772799999998" as="geometry" />
+        </mxCell>
+        <mxCell id="estacionamientos" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#f7e8cc;font-weight:bold;text-align:center&quot;&gt;estacionamientos&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_estacionamiento&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_fuente&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_ubicacion&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo_origen&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (id_fuente, codigo_origen)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="275.4" width="313.47864" x="1460.0016799999999" y="1573.16" as="geometry" />
+        </mxCell>
+        <mxCell id="rutas" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#f7e8cc;font-weight:bold;text-align:center&quot;&gt;rutas&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_ruta&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_fuente&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_ciudad&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo_origen&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (id_fuente, id_ciudad, codigo_origen)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="275.4" width="331.06752" x="2179.9962399999995" y="1054.5999999999997" as="geometry" />
+        </mxCell>
+        <mxCell id="niveles_congestion" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#f7e8cc;font-weight:bold;text-align:center&quot;&gt;niveles_congestion&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK&lt;/td&gt;&lt;td&gt;id_nivel&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;codigo&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;nombre&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;text&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;orden&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;smallint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (codigo)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;font-size:13px&quot;&gt;UQ (orden)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="271.32408" width="224.70192" x="2120.00004" y="1479.9979600000004" as="geometry" />
+        </mxCell>
+        <mxCell id="lecturas_parking" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#f7e8cc;font-weight:bold;text-align:center&quot;&gt;lecturas_parking&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK,FK&lt;/td&gt;&lt;td&gt;id_lectura&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_estacionamiento&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="121.71945600000001" width="342.43847999999997" x="969.9417600000002" y="1650.0002720000002" as="geometry" />
+        </mxCell>
+        <mxCell id="lecturas_trafico" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=0;strokeColor=#8aa6b8;fillColor=#ffffff;overflow=fill;" value="&lt;table cellpadding=&quot;5&quot; cellspacing=&quot;0&quot; style=&quot;width:100%;font-family:Helvetica;font-size:15px&quot;&gt;&lt;tr&gt;&lt;td colspan=&quot;3&quot; style=&quot;background:#f7e8cc;font-weight:bold;text-align:center&quot;&gt;lecturas_trafico&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;PK,FK&lt;/td&gt;&lt;td&gt;id_lectura&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_ruta ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;FK&lt;/td&gt;&lt;td&gt;id_nivel ?&lt;/td&gt;&lt;td style=&quot;color:#536875&quot;&gt;bigint&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="161.16408" width="251.94815999999994" x="1729.99692" y="1329.9979599999997" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_0" edge="1" parent="1" source="categorias_sensor" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="tipos_sensor" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_0" connectable="0" parent="rel_0" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_1" edge="1" parent="1" source="tipos_sensor" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="sensores" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_1" connectable="0" parent="rel_1" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_2" edge="1" parent="1" source="ciudades" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="ubicaciones" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_2" connectable="0" parent="rel_2" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_3" edge="1" parent="1" source="ubicaciones" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="sensores" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_3" connectable="0" parent="rel_3" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_4" edge="1" parent="1" source="organismos_responsables" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="sensores" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_4" connectable="0" parent="rel_4" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="0..1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_5" edge="1" parent="1" source="sensores" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_limpias" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_5" connectable="0" parent="rel_5" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_6" edge="1" parent="1" source="fuentes_datos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_limpias" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_6" connectable="0" parent="rel_6" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_7" edge="1" parent="1" source="lecturas_limpias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="mediciones_limpias" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_7" connectable="0" parent="rel_7" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_8" edge="1" parent="1" source="variables_medicion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="mediciones_limpias" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_8" connectable="0" parent="rel_8" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_9" edge="1" parent="1" source="fuentes_datos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="estacionamientos" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_9" connectable="0" parent="rel_9" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_10" edge="1" parent="1" source="ubicaciones" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="estacionamientos" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_10" connectable="0" parent="rel_10" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_11" edge="1" parent="1" source="fuentes_datos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="rutas" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_11" connectable="0" parent="rel_11" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_12" edge="1" parent="1" source="ciudades" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="rutas" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_12" connectable="0" parent="rel_12" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_13" edge="1" parent="1" source="estacionamientos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_parking" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_13" connectable="0" parent="rel_13" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_14" edge="1" parent="1" source="tipos_sensor" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="tipos_sensor_variables" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_14" connectable="0" parent="rel_14" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_15" edge="1" parent="1" source="variables_medicion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="tipos_sensor_variables" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_15" connectable="0" parent="rel_15" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_16" edge="1" parent="1" source="rutas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_trafico" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_16" connectable="0" parent="rel_16" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="0..1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_17" edge="1" parent="1" source="niveles_congestion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERzeroToOne;endArrow=ERzeroToMany;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_trafico" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_17" connectable="0" parent="rel_17" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="0..1 : 0..N" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_18" edge="1" parent="1" source="lecturas_limpias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToOne;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_parking" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_18" connectable="0" parent="rel_18" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..1" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_19" edge="1" parent="1" source="lecturas_limpias" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;startArrow=ERmandOne;endArrow=ERzeroToOne;startFill=0;endFill=0;startSize=16;endSize=16;strokeColor=#6a8190;strokeWidth=1.5;" target="lecturas_trafico" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel_label_19" connectable="0" parent="rel_19" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=12;labelBackgroundColor=#ffffff;" value="1 : 0..1" vertex="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="title" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=28;fontColor=#333333;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;font style=&quot;font-size: 36px;&quot;&gt;SMARTCITY ANALYTICS | MODELO RELACIONAL&lt;/font&gt;" vertex="1">
+          <mxGeometry height="55" width="1800" x="60" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=17;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;PK: primaria | FK: foránea | UQ: única | ?: NULL | 1: exactamente uno | 0..1: opcional | 0..N: cero o muchos&lt;/font&gt;" vertex="1">
+          <mxGeometry height="45" width="2100" x="60" y="78" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="reglas" name="02 - Mapeo y reglas">
+    <mxGraphModel grid="1" gridSize="10" page="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="note0" value="&lt;b&gt;MAPEO DEL CONCEPTUAL AL RELACIONAL&lt;/b&gt;&lt;br&gt;&lt;br&gt;13 entidades conceptuales → 13 tablas base. PERMITE → tipos_sensor_variables. REGISTRA → mediciones_limpias (valor depende de la pareja lectura-variable). Dos tablas adicionales organizan el contexto parking/tráfico: 17 tablas en total." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="30" width="1050" height="170" />
+        </mxCell>
+        <mxCell id="note1" value="&lt;b&gt;CLAVES Y CARDINALIDADES&lt;/b&gt;&lt;br&gt;&lt;br&gt;Cada PK compuesta utiliza conjuntamente todos los campos marcados PK. Una FK no nula exige un padre; una FK nula permite 0..1. Los padres admiten 0..N hijos, salvo lectura-contexto: 0..1. Las UQ son propuestas lógicas adicionales; los códigos deben respetar el ámbito indicado." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="225" width="1050" height="170" />
+        </mxCell>
+        <mxCell id="note2" value="&lt;b&gt;CONTEXTOS DE LECTURA&lt;/b&gt;&lt;br&gt;&lt;br&gt;clase_lectura: parking, trafico u otra clase documentada. Parking exige exactamente una fila en lecturas_parking y ninguna en lecturas_trafico. Tráfico exige exactamente una fila en lecturas_trafico y ninguna en lecturas_parking; ruta y nivel pueden ser nulos. Otras clases no tienen esos contextos. La clase debe coincidir con el tipo del sensor. Reglas entre tablas: implementar con servicio de carga y/o triggers; las FK por sí solas no bastan." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="420" width="1050" height="205" />
+        </mxCell>
+        <mxCell id="note3" value="&lt;b&gt;VARIABLES, CALIDAD Y AGREGACIÓN&lt;/b&gt;&lt;br&gt;&lt;br&gt;Solo se aceptan variables permitidas para el tipo del sensor. No repetir una variable dentro de una lectura (PK compuesta). Una lectura puede no tener mediciones si calidad = sin_valores_validos; valida/parcial requieren valores aceptados. Unidades canónicas y valores numéricos finitos. Capacidad y ocupación son variables por lectura, enteras no negativas; ocupación no supera capacidad. tasa_ocupacion se calcula cuando capacidad &gt; 0; no se almacena." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="650" width="1050" height="205" />
+        </mxCell>
+        <mxCell id="note4" value="&lt;b&gt;COHERENCIA GEOGRÁFICA Y PROCEDENCIA&lt;/b&gt;&lt;br&gt;&lt;br&gt;Parking: fuente y ubicación del estacionamiento coinciden con fuente y ubicación de la observación. Tráfico: ruta coincide en fuente y ciudad. No inventar organismo, ruta, coordenadas o fecha de instalación. Tipo y ubicación del sensor se suponen fijos en el periodo; si cambian se necesita modelar vigencias." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="880" width="1050" height="170" />
+        </mxCell>
+        <mxCell id="note5" value="&lt;b&gt;INTEGRACIÓN Y TIPOS&lt;/b&gt;&lt;br&gt;&lt;br&gt;id_documento_mongo es texto único para trazabilidad; no es una FK física hacia MongoDB. id_lectura es bigint propio de PostgreSQL. fecha_medicion y fecha_recepcion son timestamptz diferentes. intervalo_segundos es positivo cuando existe. Latitud entre -90 y 90, longitud entre -180 y 180; ambas conocidas o ambas nulas." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="1075" width="1050" height="170" />
+        </mxCell>
+        <mxCell id="note6" value="&lt;b&gt;NOMBRES LÓGICOS Y ALCANCE&lt;/b&gt;&lt;br&gt;&lt;br&gt;id_tipo conceptual → id_tipo_sensor; codigo de sensor → codigo_sensor; intervalo → intervalo_segundos. estado_administrativo y naturaleza_sensor son atributos distintos: activo/inactivo y físico/lógico. No inferir ausencia de actividad del estado administrativo: consultar últimas lecturas y un umbral definido. usuarios_sistema permanece independiente. Este archivo describe diseño; no ejecuta DDL ni acredita volumen o rendimiento." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="1270" width="1050" height="170" />
+        </mxCell>
+        <mxCell id="note7" value="&lt;b&gt;FUENTE Y REVISIÓN&lt;/b&gt;&lt;br&gt;&lt;br&gt;Base: SmartCity_Modelo_Conceptual_Chen.pdf, versión revisada, 13 entidades y 16 relaciones. Se mantienen sus reglas y se proponen tipos y restricciones lógicas para PostgreSQL. Verificar nombres, códigos y unidades contra los CSV antes de implementar. Las columnas son editables en las tablas HTML de la primera pestaña." style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=18;fontSize=16;fillColor=#eef5fa;strokeColor=#8aa6b8;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="30" y="1465" width="1050" height="170" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
