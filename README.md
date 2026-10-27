@@ -126,7 +126,7 @@ No hay que instalar Python, Java ni librerías en Windows. El contenedor ya tien
 
 ## 7. Validación con la Mini Demo (`demos/mini_demo.py`)
 
-Para probar que las 4 tecnologías se comunican bien entre sí, en la raíz del proyecto está el script `demos/mini_demo.py`.
+Para probar que las 4 tecnologías se comunican bien entre sí, el script de prueba está en la carpeta demos: `demos/mini_demo.py`.
 
 ### Ejecución
 En la terminal de VS Code (dentro del contenedor):
@@ -149,6 +149,10 @@ python demos/mini_demo.py
   ```
 
 ---
+
+### Sprint 1: PostgreSQL y MongoDB
+
+Desde una terminal del Dev Container, ejecutar: python sprint1.py. La primera ejecucion crea el esquema y carga los datos sinteticos requeridos. Para volver a ejecutar las consultas sin repetir la carga, usar: python sprint1.py --skip-load.
 
 ## 8. Problemas Comunes y Soluciones
 
