@@ -10,7 +10,7 @@
 4. [Guía de Instalación Paso a Paso (Windows 11)](#4-guía-de-instalación-paso-a-paso-windows-11)
 5. [Matriz de Accesos, URLs y Credenciales](#5-matriz-de-accesos-urls-y-credenciales)
 6. [Flujo de Trabajo Diario con Dev Containers](#6-flujo-de-trabajo-diario-con-dev-containers)
-7. [Validación con la Mini Demo (mini_demo.py)](#7-validación-con-la-mini-demo-minidemopy)
+7. [Validación con la Mini Demo (demos/mini_demo.py)](#7-validación-con-la-mini-demo-minidemopy)
 8. [Problemas Comunes y Soluciones](#8-problemas-comunes-y-soluciones)
 
 ---
@@ -124,14 +124,14 @@ No hay que instalar Python, Java ni librerías en Windows. El contenedor ya tien
 
 ---
 
-## 7. Validación con la Mini Demo (`mini_demo.py`)
+## 7. Validación con la Mini Demo (`demos/mini_demo.py`)
 
-Para probar que las 4 tecnologías se comunican bien entre sí, en la raíz del proyecto está el script `mini_demo.py`.
+Para probar que las 4 tecnologías se comunican bien entre sí, en la raíz del proyecto está el script `demos/mini_demo.py`.
 
 ### Ejecución
 En la terminal de VS Code (dentro del contenedor):
 ```bash
-python mini_demo.py
+python demos/mini_demo.py
 ```
 
 ### ¿Qué hace la prueba?
