@@ -248,3 +248,4 @@ def create_events_and_alerts(database, count: int) -> None:
             database[collection_name].bulk_write(ops, ordered=False)
 
 
+\n
