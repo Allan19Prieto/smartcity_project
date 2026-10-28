@@ -174,12 +174,13 @@ def reading_rows(i: int, rng: random.Random):
 
 
 def load_data(conn, database, reading_count: int = 500000) -> None:
-    say(f"4/5  Cargando {reading_count:,} lecturas sintéticas en ambas bases...")
+    say(f"5/6  Cargando {reading_count:,} lecturas sintéticas en ambas bases...")
     upsert_catalog(conn)
     rng = random.Random(20261026)
     sql_insert = """
-        INSERT INTO lecturas_limpias(id_lectura,id_sensor,id_fuente,clave_origen,id_documento_mongo,fecha_medicion,fecha_recepcion,calidad,clase_lectura,intervalo_segundos)
-        VALUES %s ON CONFLICT(id_lectura) DO NOTHING
+        INSERT INTO lecturas_limpias(id_sensor,id_fuente,clave_origen,id_documento_mongo,fecha_medicion,fecha_recepcion,calidad,clase_lectura,intervalo_segundos)
+        VALUES %s ON CONFLICT(id_fuente,clave_origen) DO UPDATE SET clave_origen=EXCLUDED.clave_origen
+        RETURNING id_lectura,clave_origen
     """
     sql_measure_insert = "INSERT INTO mediciones_limpias(id_lectura,id_variable,valor) VALUES %s ON CONFLICT DO NOTHING"
     sql_park = "INSERT INTO lecturas_parking(id_lectura,id_estacionamiento) VALUES %s ON CONFLICT DO NOTHING"
@@ -191,12 +192,17 @@ def load_data(conn, database, reading_count: int = 500000) -> None:
         for i in range(start, end):
             doc, row, vals, child, is_parking = reading_rows(i, rng)
             docs.append(doc)
-            readings.append(row)
+            readings.append(row[1:])
             measurements.extend((i, var_id, value) for var_id, value in vals)
             (parking_rows if is_parking else traffic_rows).append(child)
         with conn:
             with conn.cursor() as cur:
-                execute_values(cur, sql_insert, readings, page_size=1000)
+                # PostgreSQL asigna IDs; recuperar también IDs de una ejecución anterior.
+                returned = execute_values(cur, sql_insert, readings, page_size=1000, fetch=True)
+                ids = {int(key.rsplit("fila", 1)[1]): rid for rid, key in returned}
+                measurements = [(ids[i], var, value) for i, var, value in measurements]
+                parking_rows = [(ids[row[0]], *row[1:]) for row in parking_rows]
+                traffic_rows = [(ids[row[0]], *row[1:]) for row in traffic_rows]
                 execute_values(cur, sql_measure_insert, measurements, page_size=2000)
                 if parking_rows:
                     execute_values(cur, sql_park, parking_rows, page_size=1000)
@@ -210,7 +216,7 @@ def load_data(conn, database, reading_count: int = 500000) -> None:
     with conn:
         with conn.cursor() as cur:
             cur.execute("SELECT setval(pg_get_serial_sequence('lecturas_limpias','id_lectura'), GREATEST((SELECT max(id_lectura) FROM lecturas_limpias),1))")
-    create_events_and_alerts(database, min(5000, max(100, reading_count // 100)))
+    create_events_and_alerts(database, min(5000, reading_count // 100))
     print("  Datos listos en PostgreSQL y MongoDB.", flush=True)
 
 
@@ -243,7 +249,7 @@ def create_events_and_alerts(database, count: int) -> None:
             "clave_origen": f"alerta:{reading_no}:v1", "naturaleza": "sintetica", "procedencia": "derivado",
             "id_sensor": Int64(sensor_id), "id_evento": event_id, "contexto": context,
             "fecha_emision": when + timedelta(seconds=1), "severidad": "critico", "estado": "activa",
-            "regla": {"codigo": kind, "version": "1", "indicador": indicator, "operador": ">", "umbral": Decimal128("90.0" if is_parking else "25.0"), "unidad": unit},
+            "regla": {"codigo": kind, "version": "1", "indicador": indicator, "operador": ">" if is_parking else "<", "umbral": Decimal128("90.0" if is_parking else "25.0"), "unidad": unit},
             "evidencia": {"valor": Decimal128(str(value)), "unidad": unit},
         })
         if n % 10 == 0:

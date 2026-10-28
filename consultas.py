@@ -25,7 +25,7 @@ def consultas_postgres(conn) -> None:
         ("Ranking de zonas (CTE y ventana)", "WITH x AS (SELECT u.nombre_zona,count(l.id_lectura) n FROM ubicaciones u JOIN sensores s USING(id_ubicacion) LEFT JOIN lecturas_limpias l USING(id_sensor) GROUP BY u.nombre_zona) SELECT nombre_zona,n,dense_rank() OVER(ORDER BY n DESC) ranking FROM x ORDER BY ranking,nombre_zona FETCH FIRST 5 ROWS ONLY"),
         ("Vista de última lectura", "SELECT * FROM vw_ultima_lectura_sensor ORDER BY cantidad_lecturas DESC FETCH FIRST 5 ROWS ONLY"),
         ("Función por tipo de sensor", "SELECT * FROM fn_sensores_por_tipo(1) FETCH FIRST 5 ROWS ONLY"),
-        ("Agregados por sensor y variable", "SELECT l.id_sensor,v.codigo_variable,count(*) n,sum(m.valor) suma,avg(m.valor) promedio,min(m.valor) minimo,max(m.valor) maximo FROM mediciones_limpias m JOIN lecturas_limpias l USING(id_lectura) JOIN variables_medicion v USING(id_variable) GROUP BY l.id_sensor,v.codigo_variable HAVING count(*) > 0 ORDER BY n DESC FETCH FIRST 5 ROWS ONLY"),
+        ("Agregados por sensor y variable", "SELECT l.id_fuente,l.id_sensor,v.codigo_variable,count(*) n,sum(m.valor) suma,avg(m.valor) promedio,min(m.valor) minimo,max(m.valor) maximo FROM mediciones_limpias m JOIN lecturas_limpias l USING(id_lectura) JOIN variables_medicion v USING(id_variable) GROUP BY l.id_fuente,l.id_sensor,v.codigo_variable HAVING count(*) > 0 ORDER BY n DESC FETCH FIRST 5 ROWS ONLY"),
         ("Filtro y orden por fecha", "SELECT id_sensor,fecha_medicion FROM lecturas_limpias WHERE fecha_medicion >= %s ORDER BY fecha_medicion DESC FETCH FIRST 5 ROWS ONLY", (START,)),
         ("Consulta por sensor y fecha (columnas indexadas)", "SELECT id_lectura,fecha_medicion FROM lecturas_limpias WHERE id_sensor=1 ORDER BY fecha_medicion DESC FETCH FIRST 5 ROWS ONLY"),
     ]
@@ -43,11 +43,11 @@ def consultas_mongo(database) -> None:
     examples = [
         ("Lecturas de sensor", list(lecturas.find({"id_sensor": 1}, {"_id": 1, "fecha_medicion": 1}).limit(3))),
         ("Lecturas entre fechas", list(lecturas.find({"fecha_medicion": {"$gte": start_date, "$lt": end_date}}, {"_id": 1}).limit(3))),
-        ("Máximo y mínimo por variable", list(lecturas.aggregate([{"$unwind": "$mediciones"}, {"$group": {"_id": "$mediciones.codigo", "min": {"$min": "$mediciones.valor"}, "max": {"$max": "$mediciones.valor"}}}, {"$limit": 5}]))),
+        ("Máximo y mínimo por variable", list(lecturas.aggregate([{"$unwind": "$mediciones"}, {"$group": {"_id": {"fuente": "$id_fuente", "variable": "$mediciones.codigo"}, "min": {"$min": "$mediciones.valor"}, "max": {"$max": "$mediciones.valor"}}}, {"$limit": 5}]))),
         ("Eventos críticos", list(database.eventos.find({"severidad": "critico"}, {"_id": 1, "tipo_evento": 1}).limit(3))),
         ("Alertas por zona", list(database.alertas.aggregate([{"$group": {"_id": "$contexto.id_ubicacion", "cantidad": {"$sum": 1}}}, {"$sort": {"cantidad": -1}}, {"$limit": 3}]))),
-        ("Promedio por zona", list(lecturas.aggregate([{"$unwind": "$mediciones"}, {"$group": {"_id": {"zona": "$contexto.id_ubicacion", "variable": "$mediciones.codigo"}, "promedio": {"$avg": "$mediciones.valor"}}}, {"$limit": 5}]))),
-        ("Promedio por tipo", list(lecturas.aggregate([{"$unwind": "$mediciones"}, {"$group": {"_id": {"tipo": "$contexto.id_tipo_sensor", "variable": "$mediciones.codigo"}, "promedio": {"$avg": "$mediciones.valor"}}}, {"$limit": 5}]))),
+        ("Promedio por zona", list(lecturas.aggregate([{"$unwind": "$mediciones"}, {"$group": {"_id": {"fuente": "$id_fuente", "zona": "$contexto.id_ubicacion", "variable": "$mediciones.codigo"}, "promedio": {"$avg": "$mediciones.valor"}}}, {"$limit": 5}]))),
+        ("Promedio por tipo", list(lecturas.aggregate([{"$unwind": "$mediciones"}, {"$group": {"_id": {"fuente": "$id_fuente", "tipo": "$contexto.id_tipo_sensor", "variable": "$mediciones.codigo"}, "promedio": {"$avg": "$mediciones.valor"}}}, {"$limit": 5}]))),
         ("Incidentes por categoría", list(database.incidentes.aggregate([{"$group": {"_id": "$categoria", "cantidad": {"$sum": 1}}}]))),
         ("Lecturas y mediciones por sensor", list(lecturas.aggregate([{"$group": {"_id": "$id_sensor", "lecturas": {"$sum": 1}, "mediciones": {"$sum": {"$size": "$mediciones"}}}}, {"$sort": {"lecturas": -1}}, {"$limit": 3}]))),
         ("Filtros múltiples", list(lecturas.find({"id_sensor": 1, "contexto.id_ubicacion": 1, "fecha_medicion": {"$gte": start_date, "$lt": end_date}, "mediciones": {"$elemMatch": {"id_variable": 2, "valor": {"$gt": 50}}}}, {"_id": 1}).limit(3))),
