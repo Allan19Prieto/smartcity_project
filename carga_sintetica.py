@@ -113,7 +113,6 @@ def upsert_catalog(conn) -> None:
             )
             # Reservar diez sensores ambientales sin lecturas permite demostrar sensores inactivos/sin actividad.
             cur.execute("SELECT setval(pg_get_serial_sequence('usuarios_sistema','id_usuario'), GREATEST((SELECT max(id_usuario) FROM usuarios_sistema),1))")
-            cur.execute("SELECT setval(pg_get_serial_sequence('usuarios_sistema','id_usuario'), GREATEST((SELECT max(id_usuario) FROM usuarios_sistema),1))")
             cur.execute("SELECT setval(pg_get_serial_sequence('sensores','id_sensor'), GREATEST((SELECT max(id_sensor) FROM sensores),1))")
             cur.execute("SELECT setval(pg_get_serial_sequence('categorias_sensor','id_categoria'), GREATEST((SELECT max(id_categoria) FROM categorias_sensor),1))")
             cur.execute("SELECT setval(pg_get_serial_sequence('tipos_sensor','id_tipo_sensor'), GREATEST((SELECT max(id_tipo_sensor) FROM tipos_sensor),1))")
