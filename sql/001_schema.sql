@@ -158,14 +158,14 @@ LANGUAGE SQL AS $$
 $$;
 
 CREATE OR REPLACE PROCEDURE pr_cambiar_estado_sensor(p_id_sensor BIGINT, p_nuevo_estado TEXT)
-LANGUAGE plpgsql AS \$\$
+LANGUAGE plpgsql AS $$
 BEGIN
     IF p_nuevo_estado NOT IN ('activo', 'inactivo') THEN
         RAISE EXCEPTION 'Estado no valido: %', p_nuevo_estado;
     END IF;
     UPDATE sensores SET estado_administrativo = p_nuevo_estado WHERE id_sensor = p_id_sensor;
 END;
-\$\$;
+$$;
 
 CREATE INDEX IF NOT EXISTS ix_sensores_tipo ON sensores(id_tipo_sensor);
 CREATE INDEX IF NOT EXISTS ix_sensores_ubicacion ON sensores(id_ubicacion);
