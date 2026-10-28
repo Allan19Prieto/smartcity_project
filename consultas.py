@@ -16,18 +16,18 @@ START = datetime(2025, 1, 1, tzinfo=timezone.utc)
 def consultas_postgres(conn) -> None:
     queries = [
         ("Sensores por tipo", "SELECT t.nombre_tipo, count(*) FROM sensores s JOIN tipos_sensor t USING(id_tipo_sensor) GROUP BY t.nombre_tipo ORDER BY 2 DESC"),
-        ("Sensores por ubicación", "SELECT u.nombre_zona, count(s.id_sensor) FROM ubicaciones u LEFT JOIN sensores s USING(id_ubicacion) GROUP BY u.nombre_zona ORDER BY 2 DESC LIMIT 5"),
+        ("Sensores por ubicación", "SELECT u.nombre_zona, count(s.id_sensor) FROM ubicaciones u LEFT JOIN sensores s USING(id_ubicacion) GROUP BY u.nombre_zona ORDER BY 2 DESC FETCH FIRST 5 ROWS ONLY"),
         ("Activos e inactivos", "SELECT estado_administrativo, count(*) FROM sensores GROUP BY estado_administrativo ORDER BY 1"),
         ("Sensores por organismo", "SELECT o.nombre, count(s.id_sensor) FROM organismos_responsables o LEFT JOIN sensores s USING(id_organismo) GROUP BY o.nombre ORDER BY 2 DESC"),
-        ("Zonas con más sensores", "SELECT u.nombre_zona, count(*) total FROM sensores s JOIN ubicaciones u USING(id_ubicacion) GROUP BY u.nombre_zona HAVING count(*) > 0 ORDER BY total DESC LIMIT 5"),
+        ("Zonas con más sensores", "SELECT u.nombre_zona, count(*) total FROM sensores s JOIN ubicaciones u USING(id_ubicacion) GROUP BY u.nombre_zona HAVING count(*) > 0 ORDER BY total DESC FETCH FIRST 5 ROWS ONLY"),
         ("Sensores instalados por año", "SELECT extract(year from fecha_instalacion)::int anio, count(*) FROM sensores WHERE fecha_instalacion IS NOT NULL GROUP BY 1 ORDER BY 1"),
         ("Sensores sin lecturas", "SELECT s.id_sensor,s.codigo_sensor FROM sensores s WHERE NOT EXISTS (SELECT 1 FROM lecturas_limpias l WHERE l.id_sensor=s.id_sensor) ORDER BY 1"),
-        ("Ranking de zonas (CTE y ventana)", "WITH x AS (SELECT u.nombre_zona,count(l.id_lectura) n FROM ubicaciones u JOIN sensores s USING(id_ubicacion) LEFT JOIN lecturas_limpias l USING(id_sensor) GROUP BY u.nombre_zona) SELECT nombre_zona,n,dense_rank() OVER(ORDER BY n DESC) ranking FROM x ORDER BY ranking,nombre_zona LIMIT 5"),
-        ("Vista de última lectura", "SELECT * FROM vw_ultima_lectura_sensor ORDER BY cantidad_lecturas DESC LIMIT 5"),
-        ("Función por tipo de sensor", "SELECT * FROM fn_sensores_por_tipo(1) LIMIT 5"),
-        ("Agregados por sensor y variable", "SELECT l.id_sensor,v.codigo_variable,count(*) n,sum(m.valor) suma,avg(m.valor) promedio,min(m.valor) minimo,max(m.valor) maximo FROM mediciones_limpias m JOIN lecturas_limpias l USING(id_lectura) JOIN variables_medicion v USING(id_variable) GROUP BY l.id_sensor,v.codigo_variable HAVING count(*) > 0 ORDER BY n DESC LIMIT 5"),
-        ("Filtro y orden por fecha", "SELECT id_sensor,fecha_medicion FROM lecturas_limpias WHERE fecha_medicion >= %s ORDER BY fecha_medicion DESC LIMIT 5", (START,)),
-        ("Uso de índice", "EXPLAIN SELECT id_lectura FROM lecturas_limpias WHERE id_sensor=1 ORDER BY fecha_medicion DESC LIMIT 5"),
+        ("Ranking de zonas (CTE y ventana)", "WITH x AS (SELECT u.nombre_zona,count(l.id_lectura) n FROM ubicaciones u JOIN sensores s USING(id_ubicacion) LEFT JOIN lecturas_limpias l USING(id_sensor) GROUP BY u.nombre_zona) SELECT nombre_zona,n,dense_rank() OVER(ORDER BY n DESC) ranking FROM x ORDER BY ranking,nombre_zona FETCH FIRST 5 ROWS ONLY"),
+        ("Vista de última lectura", "SELECT * FROM vw_ultima_lectura_sensor ORDER BY cantidad_lecturas DESC FETCH FIRST 5 ROWS ONLY"),
+        ("Función por tipo de sensor", "SELECT * FROM fn_sensores_por_tipo(1) FETCH FIRST 5 ROWS ONLY"),
+        ("Agregados por sensor y variable", "SELECT l.id_sensor,v.codigo_variable,count(*) n,sum(m.valor) suma,avg(m.valor) promedio,min(m.valor) minimo,max(m.valor) maximo FROM mediciones_limpias m JOIN lecturas_limpias l USING(id_lectura) JOIN variables_medicion v USING(id_variable) GROUP BY l.id_sensor,v.codigo_variable HAVING count(*) > 0 ORDER BY n DESC FETCH FIRST 5 ROWS ONLY"),
+        ("Filtro y orden por fecha", "SELECT id_sensor,fecha_medicion FROM lecturas_limpias WHERE fecha_medicion >= %s ORDER BY fecha_medicion DESC FETCH FIRST 5 ROWS ONLY", (START,)),
+        ("Consulta por sensor y fecha (columnas indexadas)", "SELECT id_lectura,fecha_medicion FROM lecturas_limpias WHERE id_sensor=1 ORDER BY fecha_medicion DESC FETCH FIRST 5 ROWS ONLY"),
     ]
     for item in queries:
         name, query, *params = item
@@ -58,18 +58,20 @@ def consultas_mongo(database) -> None:
 
 
 def demostracion_crud(database) -> None:
-    """Demuestra CRUD con documentos temporales, y luego los elimina."""
+    """Demuestra CRUD y deja dos documentos identificables para Mongo Express."""
     demo = database["crud_demo"]
-    demo.drop()
-    demo.insert_one({"_id": "demo-1", "tipo": "prueba", "valor": 1, "activo": True})
-    demo.insert_many([{"_id": f"demo-{i}", "tipo": "prueba", "valor": i, "activo": True} for i in (2, 3)])
-    demo.find_one({"_id": "demo-1"})
-    list(demo.find({"tipo": "prueba"}).sort("valor", 1))
-    demo.update_one({"_id": "demo-1"}, {"$set": {"valor": 10}})
-    demo.update_many({"tipo": "prueba"}, {"$set": {"activo": False}})
-    demo.delete_one({"_id": "demo-1"})
-    demo.drop()
-    print("  Mongo | CRUD demostrado con documentos de prueba y colección temporal limpiada.", flush=True)
+    demo.delete_many({"proyecto": "sprint1-python-demo"})
+    demo.insert_one({"_id": "python-demo-1", "proyecto": "sprint1-python-demo", "tipo": "prueba", "valor": 1, "activo": True})
+    demo.insert_many([
+        {"_id": f"python-demo-{i}", "proyecto": "sprint1-python-demo", "tipo": "prueba", "valor": i, "activo": True}
+        for i in (2, 3)
+    ])
+    demo.find_one({"_id": "python-demo-1"})
+    list(demo.find({"proyecto": "sprint1-python-demo"}).sort("valor", 1))
+    demo.update_one({"_id": "python-demo-1"}, {"$set": {"valor": 10}})
+    demo.update_many({"proyecto": "sprint1-python-demo"}, {"$set": {"activo": False}})
+    demo.delete_one({"_id": "python-demo-1"})
+    print("  Mongo | CRUD demostrado; quedan dos documentos de ejemplo en crud_demo.", flush=True)
 
 
 def ejecutar(conn, database) -> None:

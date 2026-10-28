@@ -175,3 +175,22 @@ Desde una terminal del Dev Container, ejecutar: python sprint1.py. La primera ej
 ### 5. pgAdmin no conecta a la base de datos
 * **Por qué pasa:** En el campo *Host name/address* se puso `localhost` en lugar de `postgres`.
 * **Solución:** Poner siempre **`postgres`**. Como pgAdmin corre dentro de Docker, `postgres` es el nombre con el que se encuentran dentro de la red del clúster.
+
+## Consultas directas y evidencias del Sprint 1
+
+### PostgreSQL en pgAdmin
+1. Abre `http://localhost:5050` y conecta al servidor `SmartCity`.
+2. Selecciona `smartcity_db` y abre **Tools > Query Tool**.
+3. Abre `sql/consultas.sql`, selecciona una consulta y presiona **F5**.
+4. Captura la consulta y el panel **Data Output** con el resultado.
+
+### MongoDB
+- En `http://localhost:8081`, abre `smartcity_db` para mostrar las colecciones y documentos.
+- Para ejecutar las consultas y agregaciones del archivo JavaScript, desde PowerShell en la carpeta del proyecto ejecuta:
+
+```powershell
+docker cp mongo/consultas.js mongo_db:/tmp/consultas.js
+docker exec mongo_db mongosh "mongodb://admin:password123@localhost:27017/smartcity_db?authSource=admin" --file /tmp/consultas.js
+```
+
+Toma capturas de la salida de mongosh y del contenido de `crud_demo` en Mongo Express.

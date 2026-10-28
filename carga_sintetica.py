@@ -43,6 +43,17 @@ def upsert_catalog(conn) -> None:
             )
             execute_values(
                 cur,
+                "INSERT INTO usuarios_sistema(id_usuario,nombre,correo) VALUES %s ON CONFLICT(id_usuario) DO NOTHING",
+                [
+                    (1, "Administrador del Sistema", "admin@smartcity.cr"),
+                    (2, "Analista de Movilidad", "movilidad@smartcity.cr"),
+                    (3, "Operador de Monitoreo", "monitoreo@smartcity.cr"),
+                    (4, "Gestor Ambiental", "ambiente@smartcity.cr"),
+                    (5, "Auditor Municipal", "auditoria@smartcity.cr"),
+                ],
+            )
+            execute_values(
+                cur,
                 "INSERT INTO organismos_responsables(id_organismo,nombre,responsable) VALUES %s "
                 "ON CONFLICT(id_organismo) DO NOTHING",
                 [(i, f"Organismo {i}", None) for i in range(1, 6)],
@@ -101,6 +112,8 @@ def upsert_catalog(conn) -> None:
                 sensor_rows,
             )
             # Reservar diez sensores ambientales sin lecturas permite demostrar sensores inactivos/sin actividad.
+            cur.execute("SELECT setval(pg_get_serial_sequence('usuarios_sistema','id_usuario'), GREATEST((SELECT max(id_usuario) FROM usuarios_sistema),1))")
+            cur.execute("SELECT setval(pg_get_serial_sequence('usuarios_sistema','id_usuario'), GREATEST((SELECT max(id_usuario) FROM usuarios_sistema),1))")
             cur.execute("SELECT setval(pg_get_serial_sequence('sensores','id_sensor'), GREATEST((SELECT max(id_sensor) FROM sensores),1))")
             cur.execute("SELECT setval(pg_get_serial_sequence('categorias_sensor','id_categoria'), GREATEST((SELECT max(id_categoria) FROM categorias_sensor),1))")
             cur.execute("SELECT setval(pg_get_serial_sequence('tipos_sensor','id_tipo_sensor'), GREATEST((SELECT max(id_tipo_sensor) FROM tipos_sensor),1))")
