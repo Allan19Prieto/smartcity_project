@@ -10,7 +10,7 @@
 4. [Guía de Instalación Paso a Paso (Windows 11)](#4-guía-de-instalación-paso-a-paso-windows-11)
 5. [Matriz de Accesos, URLs y Credenciales](#5-matriz-de-accesos-urls-y-credenciales)
 6. [Flujo de Trabajo Diario con Dev Containers](#6-flujo-de-trabajo-diario-con-dev-containers)
-7. [Validación con la Mini Demo (mini_demo.py)](#7-validación-con-la-mini-demo-minidemopy)
+7. [Validación con la Mini Demo (demos/mini_demo.py)](#7-validación-con-la-mini-demo-minidemopy)
 8. [Problemas Comunes y Soluciones](#8-problemas-comunes-y-soluciones)
 
 ---
@@ -124,14 +124,14 @@ No hay que instalar Python, Java ni librerías en Windows. El contenedor ya tien
 
 ---
 
-## 7. Validación con la Mini Demo (`mini_demo.py`)
+## 7. Validación con la Mini Demo (`demos/mini_demo.py`)
 
-Para probar que las 4 tecnologías se comunican bien entre sí, en la raíz del proyecto está el script `mini_demo.py`.
+Para probar que las 4 tecnologías se comunican bien entre sí, el script de prueba está en la carpeta demos: `demos/mini_demo.py`.
 
 ### Ejecución
 En la terminal de VS Code (dentro del contenedor):
 ```bash
-python mini_demo.py
+python demos/mini_demo.py
 ```
 
 ### ¿Qué hace la prueba?
@@ -149,6 +149,10 @@ python mini_demo.py
   ```
 
 ---
+
+### Sprint 1: PostgreSQL y MongoDB
+
+Desde una terminal del Dev Container, ejecutar: python sprint1.py. La primera ejecucion crea el esquema y carga los datos sinteticos requeridos. Para volver a ejecutar las consultas sin repetir la carga, usar: python sprint1.py --skip-load.
 
 ## 8. Problemas Comunes y Soluciones
 
@@ -171,3 +175,22 @@ python mini_demo.py
 ### 5. pgAdmin no conecta a la base de datos
 * **Por qué pasa:** En el campo *Host name/address* se puso `localhost` en lugar de `postgres`.
 * **Solución:** Poner siempre **`postgres`**. Como pgAdmin corre dentro de Docker, `postgres` es el nombre con el que se encuentran dentro de la red del clúster.
+
+## Consultas directas y evidencias del Sprint 1
+
+### PostgreSQL en pgAdmin
+1. Abre `http://localhost:5050` y conecta al servidor `SmartCity`.
+2. Selecciona `smartcity_db` y abre **Tools > Query Tool**.
+3. Abre `sql/consultas.sql`, selecciona una consulta y presiona **F5**.
+4. Captura la consulta y el panel **Data Output** con el resultado.
+
+### MongoDB
+- En `http://localhost:8081`, abre `smartcity_db` para mostrar las colecciones y documentos.
+- Para ejecutar las consultas y agregaciones del archivo JavaScript, desde PowerShell en la carpeta del proyecto ejecuta:
+
+```powershell
+docker cp mongo/consultas.js mongo_db:/tmp/consultas.js
+docker exec mongo_db mongosh "mongodb://admin:password123@localhost:27017/smartcity_db?authSource=admin" --file /tmp/consultas.js
+```
+
+Toma capturas de la salida de mongosh y del contenido de `crud_demo` en Mongo Express.

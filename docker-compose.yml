@@ -1,8 +1,9 @@
+name: smartcity-sprint1
+
 services:
   # Entorno de desarrollo para programar en Python / Streamlit
   app:
     image: python:3.10-slim
-    container_name: smartcity_app
     working_dir: /workspace
     volumes:
       - .:/workspace
@@ -13,7 +14,6 @@ services:
   # 1. Base Relacional (Metadatos y Maestros)
   postgres:
     image: postgres:15-alpine
-    container_name: postgres_db
     restart: always
     environment:
       POSTGRES_USER: admin
@@ -25,18 +25,20 @@ services:
   # 2. Base NoSQL (Telemetría IoT)
   mongodb:
     image: mongo:6.0
-    container_name: mongo_db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: smartcity_db
+    volumes:
+      - ./mongo/001_setup.js:/docker-entrypoint-initdb.d/001_setup.js:ro
+      - ./mongo:/scripts:ro
     ports:
       - "27017:27017"
 
   # 3. Almacenamiento Distribuido (Hadoop HDFS)
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
-    container_name: hadoop_namenode
     restart: always
     environment:
       - CLUSTER_NAME=smartcity_cluster
@@ -49,7 +51,6 @@ services:
 
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
-    container_name: hadoop_datanode
     restart: always
     environment:
       - CLUSTER_NAME=smartcity_cluster
@@ -60,7 +61,6 @@ services:
   # 4. Procesamiento Distribuido (Apache Spark)
   spark-master:
     image: apache/spark:3.5.1
-    container_name: spark_master
     restart: always
     environment:
       - SPARK_MASTER_HOST=spark-master
@@ -78,7 +78,6 @@ services:
   # Interfaz gráfica para PostgreSQL (pgAdmin)
   pgadmin:
     image: dpage/pgadmin4
-    container_name: smartcity_pgadmin
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@smartcity.com
@@ -89,7 +88,6 @@ services:
   # Interfaz gráfica para MongoDB (Mongo Express)
   mongo-express:
     image: mongo-express
-    container_name: smartcity_mongo_express
     restart: always
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
@@ -97,3 +95,4 @@ services:
       ME_CONFIG_MONGODB_SERVER: mongodb
     ports:
       - "8081:8081"
+
