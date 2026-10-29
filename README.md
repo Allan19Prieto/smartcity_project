@@ -184,13 +184,39 @@ Desde una terminal del Dev Container, ejecutar: python sprint1.py. La primera ej
 3. Abre `sql/consultas.sql`, selecciona una consulta y presiona **F5**.
 4. Captura la consulta y el panel **Data Output** con el resultado.
 
-### MongoDB
-- En `http://localhost:8081`, abre `smartcity_db` para mostrar las colecciones y documentos.
-- Para ejecutar las consultas y agregaciones del archivo JavaScript, desde PowerShell en la carpeta del proyecto ejecuta:
+### MongoDB (Consola Interactiva mongosh y Mongo Express)
 
+#### 1. Consola interactiva nativa (mongosh)
+Para entrar a la terminal de comandos interactiva de MongoDB y ejecutar consultas directamente (equivalente a `psql` en Postgres):
 ```powershell
-docker cp mongo/consultas.js mongo_db:/tmp/consultas.js
-docker exec mongo_db mongosh "mongodb://admin:password123@localhost:27017/smartcity_db?authSource=admin" --file /tmp/consultas.js
+docker exec -it smartcity-sprint1-mongodb-1 mongosh -u admin -p password123 --authenticationDatabase admin smartcity_db
+```
+*(Aparecerá el prompt `smartcity_db>`. Desde ahí puedes escribir consultas directamente, por ejemplo: `db.eventos.find({ severidad: "critico" }).limit(3)` o `db.lecturas.find({ id_sensor: 1 }).limit(3)`. Para salir escribe `exit`).*
+
+#### 2. Ejecutar todas las consultas obligatorias del Sprint 1 en bloque
+Para correr el script con las 10 consultas del Aggregation Framework y pruebas de CRUD e imprimir todos los resultados formateados en consola:
+```powershell
+docker exec -it smartcity-sprint1-mongodb-1 mongosh -u admin -p password123 --authenticationDatabase admin smartcity_db --file /scripts/consultas.js
 ```
 
-Toma capturas de la salida de mongosh y del contenido de `crud_demo` en Mongo Express.
+#### 3. Interfaz gráfica web (Mongo Express)
+- Entrar a [http://localhost:8081](http://localhost:8081) (Usuario: `admin` / Contraseña: `pass`).
+- Clic en `smartcity_db`.
+- Para buscar visualmente en cualquier colección (`lecturas`, `eventos`, `alertas`, `incidentes`, `crud_demo`):
+  1. Clic en el botón **`View`** de la colección.
+  2. Clic en la pestaña **`Advanced`**.
+  3. En el cajón **`Query`** se escribe el filtro JSON (ej: `{ "id_sensor": 1 }` o `{ "severidad": "critico" }`).
+  4. Clic en **`Find`**.
+
+#### 4. Equivalencias rápidas SQL ⇄ MongoDB
+| Operación SQL | Equivalente en MongoDB |
+| :--- | :--- |
+| `SELECT * FROM lecturas` | `db.lecturas.find()` |
+| `WHERE id_sensor = 1` | `db.lecturas.find({ id_sensor: 1 })` |
+| `ORDER BY fecha_medicion DESC` | `.sort({ fecha_medicion: -1 })` |
+| `LIMIT 5` | `.limit(5)` |
+| `SELECT COUNT(*) FROM alertas` | `db.alertas.countDocuments()` |
+| `GROUP BY zona, AVG(valor)` | `db.lecturas.aggregate([{ $unwind: "$mediciones" }, { $group: { _id: "$contexto.id_ubicacion", prom: { $avg: "$mediciones.valor" } } }])` |
+| `INSERT INTO ...` | `db.coleccion.insertOne({ ... })` |
+| `UPDATE ... SET ...` | `db.coleccion.updateOne({ filtro }, { $set: { campo: nuevo_valor } })` |
+| `DELETE FROM ... WHERE ...` | `db.coleccion.deleteOne({ filtro })` |
