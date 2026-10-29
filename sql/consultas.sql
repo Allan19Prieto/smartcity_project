@@ -113,15 +113,15 @@ ORDER BY total_vehiculos DESC
 FETCH FIRST 1 ROWS ONLY;
 
 -- Pregunta de Negocio 2: ¿Cuál es la hora de mayor congestión?
-SELECT EXTRACT(HOUR FROM l.fecha_medicion) AS hora_del_dia,
-       COUNT(*) AS lecturas_congestionadas
-FROM lecturas_trafico lt
-JOIN lecturas_limpias l ON l.id_lectura = lt.id_lectura
-JOIN niveles_congestion nc ON nc.id_nivel = lt.id_nivel
-WHERE nc.codigo = 'alta'
-GROUP BY EXTRACT(HOUR FROM l.fecha_medicion)
-ORDER BY lecturas_congestionadas DESC
-FETCH FIRST 1 ROWS ONLY;
+    SELECT EXTRACT(HOUR FROM l.fecha_medicion) AS hora_del_dia,
+        COUNT(*) AS lecturas_congestionadas
+    FROM lecturas_trafico lt
+    JOIN lecturas_limpias l ON l.id_lectura = lt.id_lectura
+    JOIN niveles_congestion nc ON nc.id_nivel = lt.id_nivel
+    WHERE nc.codigo = 'alta'
+    GROUP BY EXTRACT(HOUR FROM l.fecha_medicion)
+    ORDER BY lecturas_congestionadas DESC
+    FETCH FIRST 1 ROWS ONLY;
 
 -- Pregunta de Negocio 3: ¿Qué rutas presentan mayor utilización?
 SELECT r.nombre AS ruta, COUNT(lt.id_lectura) AS total_registros,
