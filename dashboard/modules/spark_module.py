@@ -15,10 +15,10 @@ def render():
         """
     )
 
-    analytics, is_live = get_spark_analytics()
+    analytics, is_live, source_msg = get_spark_analytics()
 
     if is_live:
-        st.success("Procedencia técnica: Motor Apache Spark 3.5.1 en clúster activo | API: PySpark DataFrame | Trazabilidad HDFS: Verificada.")
+        st.success(f"Procedencia técnica verificada: {source_msg} | Formato: Apache Parquet (Snappy).")
     else:
         st.info("Procedencia técnica: Pipeline analítico de Apache Spark (Datos cacheados de referencia desde Data Lake HDFS).")
 

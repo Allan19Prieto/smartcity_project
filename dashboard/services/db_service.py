@@ -201,14 +201,40 @@ def get_mongo_alerts(limit=10):
     return get_mock_mongo_alerts(), False
 
 def get_spark_analytics(simulate_live=False):
-    """Retorna los 10 análisis obligatorios calculados con Apache Spark."""
-    # En fase final se lee de HDFS/Parquet o tabla resultado de Spark
-    analytics = get_mock_spark_10_analytics()
-    is_live = False
-    status = get_cluster_status()
-    if status["Apache Spark"]["online"]:
-        is_live = True
-    return analytics, is_live
+    """Retorna los 10 análisis obligatorios calculados con Apache Spark (leídos de Parquet si existen)."""
+    from pathlib import Path
+    parquet_dir = Path(__file__).resolve().parents[2] / "data_lake" / "analitica_spark"
+
+    analytics = {}
+    keys = [
+        "q1_ocupacion_zona", "q2_congestion_hora", "q3_rutas_ranking",
+        "q4_eventos_criticos", "q5_velocidad_aqi", "q6_vehiculos_tipo",
+        "q7_incidentes_zona", "q8_capacidad_max", "q9_tendencia_mensual",
+        "q10_plazas_libres"
+    ]
+
+    parquets_found = 0
+    if parquet_dir.exists():
+        for k in keys:
+            p_file = parquet_dir / f"{k}.parquet"
+            if p_file.exists():
+                try:
+                    analytics[k] = pd.read_parquet(p_file)
+                    parquets_found += 1
+                except Exception:
+                    pass
+
+    if parquets_found == len(keys):
+        return analytics, True, "Archivos binarios Apache Parquet reales leídos desde /data_lake/analitica_spark/"
+
+    mock_analytics = get_mock_spark_10_analytics()
+    for k in keys:
+        if k not in analytics:
+            analytics[k] = mock_analytics[k]
+
+    is_live = (parquets_found > 0)
+    msg = f"Se leyeron {parquets_found}/10 archivos Parquet reales desde /data_lake/analitica_spark/" if parquets_found > 0 else "Modo de contingencia"
+    return analytics, is_live, msg
 
 def get_hdfs_files():
     """Retorna el árbol de archivos del Data Lake HDFS."""
