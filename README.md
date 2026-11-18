@@ -152,7 +152,23 @@ python demos/mini_demo.py
 
 ### Sprint 1: PostgreSQL y MongoDB
 
-Desde una terminal del Dev Container, ejecutar: python sprint1.py. La primera ejecucion crea el esquema y carga los datos sinteticos requeridos. Para volver a ejecutar las consultas sin repetir la carga, usar: python sprint1.py --skip-load.
+Desde una terminal del Dev Container, ejecutar: `python sprint1.py`. La primera ejecución crea el esquema y carga los datos sintéticos requeridos. Para volver a ejecutar las consultas sin repetir la carga, usar: `python sprint1.py --skip-load`.
+
+### Sprint 2: Data Lake, Apache Spark y Panel Centralizado (Streamlit)
+
+Para iniciar la interfaz centralizada de monitoreo urbano correspondiente a la **Etapa 7**, ejecutar desde una terminal de PowerShell en la carpeta raíz del proyecto:
+```powershell
+docker compose exec app streamlit run dashboard/app.py --server.address=0.0.0.0 --server.port=8501
+```
+Acceso desde el navegador web:  
+👉 **[http://localhost:8501](http://localhost:8501)**
+
+La plataforma unifica de manera interactiva:
+* **PostgreSQL:** Catálogos normalizados bajo 3NF y ejecución de las tres consultas de negocio obligatorias.
+* **MongoDB:** Visualización de telemetría IoT semiestructurada, registro de alertas y demostración interactiva de operaciones CRUD (`insertOne`, `find`, `updateOne`, `deleteOne`).
+* **Apache Spark:** Presentación analítica de los diez indicadores urbanos obligatorios con linaje técnico demostrable (`[SPARK LINEAGE]`) a partir de archivos binarios Apache Parquet (`/data_lake/analitica_spark/`).
+* **Hadoop HDFS:** Explorador de directorios del Data Lake distribuido (`/historico_smartcity/`) y trazabilidad del ciclo de vida del dato.
+
 
 ## 8. Problemas Comunes y Soluciones
 

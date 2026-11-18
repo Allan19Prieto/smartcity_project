@@ -1,3 +1,5 @@
 psycopg2-binary>=2.9,<3
 pymongo>=4,<5
 tzdata
+plotly>=5.20.0
+streamlit>=1.35.0

@@ -6,6 +6,7 @@
 - [Arquitectura](arquitectura.md): flujo de la demostración y función de cada tecnología.
 - [Fuentes y datos](fuentes-y-datos.md): datasets propuestos y estado de su integración.
 - [Sprint 1](estado-sprint-1.md): criterios de PostgreSQL y MongoDB y alcance de la demostración actual.
+- [Sprint 2: Data Lake, Spark e Interfaz](estado-sprint-2.md): arquitectura Big Data, pipeline de Spark, diez análisis obligatorios y panel centralizado (Etapa 7).
 - [Ejecutar la mini demo](reproducir-mini-demo.md).
 - [Comparación tecnológica](comparacion-tecnologica.md): criterios y método de medición.
 - [Atributos del curso](atributos.md): guía para el documento del equipo.
