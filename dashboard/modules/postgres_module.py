@@ -90,6 +90,7 @@ ORDER BY total_vehiculos DESC;"""
                          title="Aforo Vehicular Agrupado por Zona Urbana")
             st.plotly_chart(fig, use_container_width=True)
             st.dataframe(df, use_container_width=True, hide_index=True)
+            st.download_button("Descargar Reporte (CSV)", data=df.to_csv(index=False).encode('utf-8'), file_name="reporte_postgres_q1_aforo_zona.csv", mime="text/csv")
 
         elif "Pregunta 2" in q:
             st.markdown("**Objetivo:** Identificar el período horario de máxima saturación de tráfico (nivel de congestión 'alta').")
@@ -117,6 +118,7 @@ ORDER BY hora_del_dia;"""
                           title="Frecuencia Horaria de Eventos de Congestión")
             st.plotly_chart(fig, use_container_width=True)
             st.dataframe(df, use_container_width=True, hide_index=True)
+            st.download_button("Descargar Reporte (CSV)", data=df.to_csv(index=False).encode('utf-8'), file_name="reporte_postgres_q1_aforo_zona.csv", mime="text/csv")
 
         else:
             st.markdown("**Objetivo:** Evaluar la utilización de rutas viales y calcular su velocidad promedio asociada.")
@@ -148,6 +150,7 @@ FETCH FIRST 5 ROWS ONLY;"""
             fig.update_traces(textposition='top center')
             st.plotly_chart(fig, use_container_width=True)
             st.dataframe(df, use_container_width=True, hide_index=True)
+            st.download_button("Descargar Reporte (CSV)", data=df.to_csv(index=False).encode('utf-8'), file_name="reporte_postgres_q1_aforo_zona.csv", mime="text/csv")
 
     with tab3:
         st.subheader("Ejecución Directa de Consultas SQL")

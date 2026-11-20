@@ -5,6 +5,21 @@ import plotly.express as px
 import plotly.graph_objects as go
 from services.db_service import get_spark_analytics
 
+def render_export_bar(df, filename_prefix: str):
+    """Componente reutilizable para exportación formal de reportes en formato CSV."""
+    c_left, c_right = st.columns([3, 1])
+    with c_left:
+        st.caption(f"Registros consolidados: {len(df)} observaciones procesadas.")
+    with c_right:
+        csv_data = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Descargar Reporte (CSV)",
+            data=csv_data,
+            file_name=f"{filename_prefix}.csv",
+            mime="text/csv",
+            use_container_width=True
+        )
+
 def render():
     st.title("Módulo Analítico Distribuido (Apache Spark)")
     st.markdown(
@@ -37,7 +52,11 @@ def render():
         "10. Disponibilidad y Plazas Libres Estimadas en Tiempo Real"
     ]
 
-    seleccion = st.selectbox("Seleccionar Indicador Analítico:", analisis_lista)
+    col_sel, col_filt = st.columns([3, 1])
+    with col_sel:
+        seleccion = st.selectbox("Seleccionar Indicador Analítico:", analisis_lista)
+    with col_filt:
+        orden_asc = st.checkbox("Invertir orden de visualización", value=False)
 
     st.markdown(
         '<div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-left: 4px solid #38BDF8; border-radius: 6px; padding: 10px 14px; margin-bottom: 14px;">'
@@ -52,7 +71,10 @@ def render():
 
     # 1. OCUPACIÓN PROMEDIO
     if "1. Ocupación" in seleccion:
-        df1 = analytics["q1_ocupacion_zona"]
+        df1 = analytics["q1_ocupacion_zona"].copy()
+        if orden_asc:
+            df1 = df1.sort_values(by="ocupacion_promedio_pct", ascending=True)
+
         st.subheader("1. Ocupación Promedio de Parqueos por Zona Urbana")
         st.markdown("**Planteamiento:** Identificar las zonas con mayor tasa de ocupación porcentual respecto a su capacidad nominal.")
 
@@ -66,6 +88,7 @@ def render():
         st.plotly_chart(fig, use_container_width=True)
 
         st.dataframe(df1, use_container_width=True, hide_index=True)
+        render_export_bar(df1, "reporte_spark_q1_ocupacion_zona")
 
         with st.expander("Especificación del Pipeline PySpark"):
             st.code("""# Transformación distribuida en Apache Spark
@@ -84,7 +107,7 @@ df_analisis_1.show()""", language="python")
 
     # 2. HORAS PICO
     elif "2. Horas" in seleccion:
-        df2 = analytics["q2_congestion_hora"]
+        df2 = analytics["q2_congestion_hora"].copy()
         st.subheader("2. Horas Pico y Evolución de Congestión Vehicular")
         st.markdown("**Planteamiento:** Analizar la curva horaria (0 a 23h) de flujo vehicular y su impacto inverso en la velocidad de circulación.")
 
@@ -101,10 +124,14 @@ df_analisis_1.show()""", language="python")
         )
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df2, use_container_width=True, hide_index=True)
+        render_export_bar(df2, "reporte_spark_q2_congestion_horaria")
 
     # 3. RANKING DE RUTAS
     elif "3. Ranking" in seleccion:
-        df3 = analytics["q3_rutas_ranking"]
+        df3 = analytics["q3_rutas_ranking"].copy()
+        if orden_asc:
+            df3 = df3.sort_values(by="volumen_diario_estimado", ascending=True)
+
         st.subheader("3. Ranking de Rutas Viales de Mayor Aforo")
         st.markdown("**Planteamiento:** Determinar las arterias de la red vial con mayor tráfico acumulado y su nivel de congestión.")
 
@@ -116,10 +143,11 @@ df_analisis_1.show()""", language="python")
         )
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df3, use_container_width=True, hide_index=True)
+        render_export_bar(df3, "reporte_spark_q3_ranking_rutas")
 
     # 4. EVENTOS CRÍTICOS
     elif "4. Detección" in seleccion:
-        df4 = analytics["q4_eventos_criticos"]
+        df4 = analytics["q4_eventos_criticos"].copy()
         st.subheader("4. Detección de Eventos Críticos y Anomalías")
         st.markdown("**Planteamiento:** Clasificar y cuantificar las anomalías operativas registradas por los sensores.")
 
@@ -130,10 +158,11 @@ df_analisis_1.show()""", language="python")
         )
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df4, use_container_width=True, hide_index=True)
+        render_export_bar(df4, "reporte_spark_q4_eventos_criticos")
 
     # 5. VELOCIDAD VS AQI
     elif "5. Correlación" in seleccion:
-        df5 = analytics["q5_velocidad_aqi"]
+        df5 = analytics["q5_velocidad_aqi"].copy()
         st.subheader("5. Correlación: Velocidad Media vs Calidad del Aire (AQI)")
         st.markdown("**Planteamiento:** Evaluar la relación empírica entre la velocidad media de desplazamiento y el índice de calidad del aire.")
 
@@ -146,10 +175,11 @@ df_analisis_1.show()""", language="python")
         fig.update_traces(textposition='top center')
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df5, use_container_width=True, hide_index=True)
+        render_export_bar(df5, "reporte_spark_q5_velocidad_aqi")
 
     # 6. VEHÍCULOS COMERCIALES
     elif "6. Proporción" in seleccion:
-        df6 = analytics["q6_vehiculos_tipo"]
+        df6 = analytics["q6_vehiculos_tipo"].copy()
         st.subheader("6. Proporción de Flota: Vehículos Comerciales vs Particulares")
         st.markdown("**Planteamiento:** Determinar la composición porcentual de la flota vehicular por metrópoli.")
 
@@ -159,10 +189,14 @@ df_analisis_1.show()""", language="python")
         fig.update_layout(barmode='stack', title="Composición del Parque Vehicular")
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df6, use_container_width=True, hide_index=True)
+        render_export_bar(df6, "reporte_spark_q6_vehiculos_comerciales")
 
     # 7. INCIDENTES POR ZONA
     elif "7. Incidentes" in seleccion:
-        df7 = analytics["q7_incidentes_zona"]
+        df7 = analytics["q7_incidentes_zona"].copy()
+        if orden_asc:
+            df7 = df7.sort_values(by="accidentes_anuales", ascending=True)
+
         st.subheader("7. Incidentes Viales y Criticidad por Cuadrante")
         st.markdown("**Planteamiento:** Distribuir geográficamente la tasa de siniestros viales reportados para asignación de recursos.")
 
@@ -174,10 +208,11 @@ df_analisis_1.show()""", language="python")
         )
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df7, use_container_width=True, hide_index=True)
+        render_export_bar(df7, "reporte_spark_q7_incidentes_viales")
 
     # 8. CAPACIDAD VS OCUPACIÓN MÁXIMA
     elif "8. Capacidad" in seleccion:
-        df8 = analytics["q8_capacidad_max"]
+        df8 = analytics["q8_capacidad_max"].copy()
         st.subheader("8. Capacidad de Diseño vs Ocupación Máxima Registrada")
         st.markdown("**Planteamiento:** Contrastar la capacidad teórica con el pico histórico registrado para validar la ausencia de desbordamiento de plazas.")
 
@@ -187,10 +222,11 @@ df_analisis_1.show()""", language="python")
         fig.update_layout(barmode='group', title="Auditoría de Capacidad vs Pico de Ocupación")
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df8, use_container_width=True, hide_index=True)
+        render_export_bar(df8, "reporte_spark_q8_capacidad_maxima")
 
     # 9. TENDENCIA ANUAL
     elif "9. Tendencia" in seleccion:
-        df9 = analytics["q9_tendencia_mensual"]
+        df9 = analytics["q9_tendencia_mensual"].copy()
         st.subheader("9. Tendencia Anual de Congestión y Emisiones de CO2")
         st.markdown("**Planteamiento:** Mapear la evolución estacional de la congestión y su correspondencia con el volumen de emisiones de CO2.")
 
@@ -201,10 +237,14 @@ df_analisis_1.show()""", language="python")
         )
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df9, use_container_width=True, hide_index=True)
+        render_export_bar(df9, "reporte_spark_q9_tendencia_anual")
 
     # 10. PLAZAS LIBRES
     else:
-        df10 = analytics["q10_plazas_libres"]
+        df10 = analytics["q10_plazas_libres"].copy()
+        if orden_asc:
+            df10 = df10.sort_values(by="plazas_libres", ascending=True)
+
         st.subheader("10. Disponibilidad y Plazas Libres Estimadas en Tiempo Real")
         st.markdown("**Planteamiento:** Calcular la disponibilidad inmediata de estacionamiento para optimizar rutas ciudadanas.")
 
@@ -216,3 +256,4 @@ df_analisis_1.show()""", language="python")
         )
         st.plotly_chart(fig, use_container_width=True)
         st.dataframe(df10, use_container_width=True, hide_index=True)
+        render_export_bar(df10, "reporte_spark_q10_plazas_libres")
