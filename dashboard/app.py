@@ -47,7 +47,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Importar submódulos del sistema
-from modules import overview, postgres_module, mongo_module, spark_module, hdfs_module
+from modules import overview, postgres_module, mongo_module, spark_module, hdfs_module, benchmark_module
 
 def main():
     # Menú lateral de navegación
@@ -65,6 +65,7 @@ def main():
                 "Módulo Documental (MongoDB)",
                 "Módulo Analítico Distribuido (Apache Spark)",
                 "Data Lake Distribuido (Hadoop HDFS)",
+                "Evaluación de Rendimiento (Benchmark)",
                 "Ficha Técnica de la Entrega"
             ]
         )
@@ -97,6 +98,9 @@ def main():
 
     elif modulo == "Data Lake Distribuido (Hadoop HDFS)":
         hdfs_module.render()
+
+    elif modulo == "Evaluación de Rendimiento (Benchmark)":
+        benchmark_module.render()
 
     elif modulo == "Ficha Técnica de la Entrega":
         st.title("Ficha Técnica de la Entrega (Sprint 2)")
