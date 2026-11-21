@@ -1,7 +1,63 @@
 """Módulo de Visión General y Estado del Ecosistema SmartCity."""
 
 import streamlit as st
+import streamlit.components.v1 as components
 from services.db_service import get_cluster_status
+
+def render_mermaid(diagram_code: str, height: int = 560):
+    """Renderiza diagramas de arquitectura en Mermaid con soporte de subgrafos y tema profesional."""
+    html_code = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <script type="module">
+            import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+            mermaid.initialize({{
+                startOnLoad: true,
+                theme: 'dark',
+                securityLevel: 'loose',
+                themeVariables: {{
+                    darkMode: true,
+                    background: 'transparent',
+                    primaryColor: '#1e293b',
+                    primaryTextColor: '#f8fafc',
+                    primaryBorderColor: '#38bdf8',
+                    lineColor: '#64748b',
+                    secondaryColor: '#0f172a',
+                    tertiaryColor: '#1e293b',
+                    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+                    fontSize: '13px'
+                }}
+            }});
+        </script>
+        <style>
+            body {{
+                margin: 0;
+                padding: 10px;
+                background-color: transparent;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Inter, system-ui, -apple-system, sans-serif;
+            }}
+            .mermaid {{
+                width: 100%;
+                text-align: center;
+            }}
+            svg {{
+                max-width: 100%;
+                height: auto;
+            }}
+        </style>
+    </head>
+    <body>
+        <pre class="mermaid">
+{diagram_code}
+        </pre>
+    </body>
+    </html>
+    """
+    components.html(html_code, height=height, scrolling=False)
 
 def render():
     st.title("Panel Centralizado de Monitoreo Urbano")
@@ -44,96 +100,69 @@ def render():
 
     st.divider()
 
-    # 3. DIAGRAMA ARQUITECTÓNICO DEL PIPELINE DE DATOS
-    st.subheader("Flujo y Transformación de la Información (Pipeline Extremo a Extremo)")
+    # 3. DIAGRAMA ARQUITECTÓNICO DEL PIPELINE DE DATOS EN MERMAID
+    st.subheader("Topología Arquitectónica del Pipeline (Extremo a Extremo)")
     st.markdown(
         """
-        El recorrido de los datos se estructura en cinco etapas secuenciales y desacopladas, garantizando
-        inmutabilidad en el almacenamiento en crudo y alta eficiencia en el procesamiento distribuido:
+        Diagrama de flujo multicapa que ilustra la ingesta desde fuentes heterogéneas, la persistencia transaccional y documental,
+        el ciclo de vida en el Data Lake Hadoop HDFS con Apache Spark, y la entrega final en la interfaz analítica:
         """
     )
 
-    pipeline_html = """
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; justify-content: space-between; margin-top: 15px; margin-bottom: 25px;">
-        
-        <!-- Etapa 1 -->
-        <div style="flex: 1; min-width: 180px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 14px;">
-            <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Etapa 1</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #38BDF8; margin-top: 4px; margin-bottom: 8px;">Fuentes Primarias</div>
-            <div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.4;">
-                • CSV Parking Birmingham<br/>
-                • CSV Tráfico Multi-Ciudad<br/>
-                • Generador Sintético IoT
-            </div>
-            <div style="margin-top: 10px; font-size: 0.75rem; background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 3px 6px; border-radius: 4px; display: inline-block;">
-                Formato CSV / JSON
-            </div>
-        </div>
+    mermaid_pipeline = """
+flowchart LR
+    subgraph S1 ["1. Fuentes Primarias"]
+        F1["CSV Birmingham Parking"]
+        F2["CSV Trafico Vehicular"]
+        F3["Telemetria IoT Sintetica"]
+    end
 
-        <div style="display: flex; align-items: center; color: #64748B; font-size: 1.2rem;">➔</div>
+    subgraph S2 ["2. Ingesta y Limpieza"]
+        ETL["Normalizacion UTC y 3NF<br/>Validacion de Integridad"]
+    end
 
-        <!-- Etapa 2 -->
-        <div style="flex: 1; min-width: 180px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 14px;">
-            <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Etapa 2</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #4ADE80; margin-top: 4px; margin-bottom: 8px;">Ingesta y Validación</div>
-            <div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.4;">
-                • Normalización temporal UTC<br/>
-                • Filtrado de no numéricos<br/>
-                • Reglas de integridad 3NF
-            </div>
-            <div style="margin-top: 10px; font-size: 0.75rem; background: rgba(74, 222, 128, 0.15); color: #4ADE80; padding: 3px 6px; border-radius: 4px; display: inline-block;">
-                Validación Python
-            </div>
-        </div>
+    subgraph S3 ["3. Persistencia Base (Sprint 1)"]
+        PG[("PostgreSQL 15<br/>17 Tablas en 3NF")]
+        MG[("MongoDB 6.0<br/>Coleccion IoT BSON")]
+    end
 
-        <div style="display: flex; align-items: center; color: #64748B; font-size: 1.2rem;">➔</div>
+    subgraph S4 ["4. Data Lake y Spark (Sprint 2)"]
+        HDFS[("Hadoop HDFS<br/>/crudo y /depurado")]
+        SPARK{{"Apache Spark 3.5.1<br/>10 Analisis Masivos"}}
+        PARQUET[("Datasets Parquet<br/>Snappy Columnar")]
+        HDFS --> SPARK
+        SPARK --> PARQUET
+    end
 
-        <!-- Etapa 3 -->
-        <div style="flex: 1; min-width: 180px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 14px;">
-            <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Etapa 3</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #A78BFA; margin-top: 4px; margin-bottom: 8px;">Persistencia Base</div>
-            <div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.4;">
-                • <b>PostgreSQL:</b> 17 tablas en 3NF<br/>
-                • <b>MongoDB:</b> Telemetría IoT<br/>
-                • Enlace por claves cruzadas
-            </div>
-            <div style="margin-top: 10px; font-size: 0.75rem; background: rgba(167, 139, 250, 0.15); color: #A78BFA; padding: 3px 6px; border-radius: 4px; display: inline-block;">
-                SQL Relacional + NoSQL
-            </div>
-        </div>
+    subgraph S5 ["5. Publicacion"]
+        DASH["Dashboard Streamlit<br/>Trazabilidad y Benchmark"]
+    end
 
-        <div style="display: flex; align-items: center; color: #64748B; font-size: 1.2rem;">➔</div>
+    F1 --> ETL
+    F2 --> ETL
+    F3 --> ETL
+    ETL --> PG
+    ETL --> MG
+    ETL --> HDFS
+    PG --> DASH
+    MG --> DASH
+    PARQUET --> DASH
 
-        <!-- Etapa 4 -->
-        <div style="flex: 1; min-width: 180px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 14px;">
-            <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Etapa 4</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #FB923C; margin-top: 4px; margin-bottom: 8px;">Data Lake & Spark</div>
-            <div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.4;">
-                • <b>HDFS:</b> Histórico crudo y Parquet<br/>
-                • <b>Apache Spark 3.5:</b> Motor masivo<br/>
-                • 10 Análisis obligatorios
-            </div>
-            <div style="margin-top: 10px; font-size: 0.75rem; background: rgba(251, 146, 60, 0.15); color: #FB923C; padding: 3px 6px; border-radius: 4px; display: inline-block;">
-                Big Data Distribuido
-            </div>
-        </div>
+    style S1 fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style S2 fill:#0f172a,stroke:#4ade80,stroke-width:2px,color:#fff
+    style S3 fill:#0f172a,stroke:#a78bfa,stroke-width:2px,color:#fff
+    style S4 fill:#0f172a,stroke:#fb923c,stroke-width:2px,color:#fff
+    style S5 fill:#0f172a,stroke:#f472b6,stroke-width:2px,color:#fff
 
-        <div style="display: flex; align-items: center; color: #64748B; font-size: 1.2rem;">➔</div>
-
-        <!-- Etapa 5 -->
-        <div style="flex: 1; min-width: 180px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; padding: 14px;">
-            <div style="font-size: 0.75rem; color: #94A3B8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Etapa 5</div>
-            <div style="font-size: 1rem; font-weight: 700; color: #F472B6; margin-top: 4px; margin-bottom: 8px;">Publicación e Interfaz</div>
-            <div style="font-size: 0.85rem; color: #CBD5E1; line-height: 1.4;">
-                • Dashboard Centralizado<br/>
-                • Trazabilidad [SPARK LINEAGE]<br/>
-                • Consultas por tecnología
-            </div>
-            <div style="margin-top: 10px; font-size: 0.75rem; background: rgba(244, 114, 182, 0.15); color: #F472B6; padding: 3px 6px; border-radius: 4px; display: inline-block;">
-                Streamlit + Plotly
-            </div>
-        </div>
-
-    </div>
-    """
-    st.markdown(pipeline_html, unsafe_allow_html=True)
+    style F1 fill:#1e293b,stroke:#38bdf8,color:#fff
+    style F2 fill:#1e293b,stroke:#38bdf8,color:#fff
+    style F3 fill:#1e293b,stroke:#38bdf8,color:#fff
+    style ETL fill:#1e293b,stroke:#4ade80,color:#fff
+    style PG fill:#1e293b,stroke:#a78bfa,color:#fff
+    style MG fill:#1e293b,stroke:#a78bfa,color:#fff
+    style HDFS fill:#1e293b,stroke:#fb923c,color:#fff
+    style SPARK fill:#1e293b,stroke:#fb923c,color:#fff
+    style PARQUET fill:#1e293b,stroke:#fb923c,color:#fff
+    style DASH fill:#1e293b,stroke:#f472b6,color:#fff
+"""
+    render_mermaid(mermaid_pipeline, height=480)
